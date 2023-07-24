@@ -1,0 +1,81 @@
+#!/bin/bash
+
+
+state_path="$HOME"/.local/state/TERMINAL_THEME
+
+if [ ! -f $state_path ]; then
+	echo 'dark' > $state_path
+fi
+
+
+print_usage () {
+	echo 'set-terminal-theme [--start-monitoring] [system|light|dark]
+
+  --start-monitoring:  monitors gnome light/dark theme and automaticaly changes 
+                       terminal theme accordingly (requires system)
+
+  system:              use current system theme
+  light:               use light theme
+  dark:                use dark theme
+
+  When no argument is passed, the last theme set with this script is used'
+	exit 1
+}
+
+
+if [[ $# -ge 3 ]]; then
+	print_usage
+fi
+
+
+case $1 in
+	--start-monitoring )
+		# start daemon that matches Gnome's light/dark theme change (will be running on startup)
+		shift
+		case $1 in
+			system )
+				sudo systemctl enable terminal-theme-monitor.service
+				;;
+			* )
+				print_usage
+				;;
+		esac
+		;;
+esac
+
+
+case $1 in
+	system )
+		theme=`gsettings get org.gnome.desktop.interface color-scheme`
+		;;
+	light | dark )
+		theme=$1
+
+		# disable daemon that matches Gnome's light/dark theme change (won't be running on startup)
+		if systemctl is-enabled terminal-theme-monitor.service | grep -q 'enabled'; then
+			echo 'Disable terminal-theme-monitor.service...'
+			sudo systemctl disable terminal-theme-monitor.service
+			# kill running gsettings monitor
+			terminal-theme-monitor -k
+		fi
+		;;
+	'' ) # defaults to TERMINAL_THEME
+		theme=$(cat $state_path)
+		;;
+	* )
+		print_usage
+		;;
+esac
+
+
+# sets kitty light/dark theme
+case $theme in
+	*dark* )
+		kitty +kitten themes --reload-in=all Catppuccin-Mocha
+		echo dark > $state_path
+		;;
+	*default* | *light* )
+		kitty +kitten themes --reload-in=all Catppuccin-Latte
+		echo light > $state_path
+		;;
+esac

@@ -1,0 +1,11 @@
+[Unit]
+Description=Matches Kitty's theme with Gnome light/dark theme
+
+[Service]
+Type=simple
+User=USERNAME
+ExecStart=/usr/local/bin/terminal-theme-monitor
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

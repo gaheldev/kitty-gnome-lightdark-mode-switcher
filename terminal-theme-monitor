@@ -1,0 +1,40 @@
+#!/bin/bash
+
+
+kill_existing_daemons () {
+	pname="gsettings monitor org.gnome.desktop.interface color-scheme"
+	pids=$(pgrep -f "$pname")
+	pid_count=$(pgrep -cf "$pname")
+	if [[ $pid_count -ge 1 ]]; then
+		kill $pids
+	fi
+}
+
+
+print_usage () {
+	echo 'Usage: terminal-theme-monitor [-k]
+	  :	(re)starts monitoring of gnome light/dark theme and changes kitty theme accordingly  
+	-k:	kill existing monitor'
+	exit 1
+}
+
+
+if [[ $# -ge 2 ]]; then
+	print_usage
+fi
+
+
+case $1 in
+	-k )
+		kill_existing_daemons
+		;;
+	'' )
+		kill_existing_daemons
+
+		# monitor gsettings change
+		gsettings monitor org.gnome.desktop.interface color-scheme | xargs -I % bash -c 'set-terminal-theme system' &2>>/dev/null
+		;;
+	* )
+		print_usage
+		;;
+esac
