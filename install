@@ -21,3 +21,4 @@ RemainAfterExit=yes
 WantedBy=default.target" > $systemd_folder/kitty-gnome-mode-monitor.service
 
 systemctl --user daemon-reload
+systemctl --user import-environment PATH
