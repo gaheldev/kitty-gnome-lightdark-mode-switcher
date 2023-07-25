@@ -9,6 +9,15 @@ chmod +x "$HOME"/.local/bin/kitty-gnome-theme-monitor
 # add daemon to systemd
 systemd_folder="$HOME"/.config/systemd/user
 mkdir -p $systemd_folder
-cp kitty-gnome-theme-monitor.service $systemd_folder
+echo "[Unit]
+Description=Matches Kitty's theme with Gnome light/dark theme
+
+[Service]
+Type=forking
+ExecStart=$HOME/.local/bin/kitty-gnome-theme-monitor
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target" > $systemd_folder/kitty-gnome-theme-monitor.service
 
 systemctl --user daemon-reload
