@@ -3,7 +3,7 @@ Description=Matches Kitty's theme with Gnome light/dark theme
 
 [Service]
 Type=forking
-ExecStart=/usr/local/bin/terminal-theme-monitor
+ExecStart=/home/gael/.local/bin/kitty-gnome-theme-monitor
 RemainAfterExit=yes
 
 [Install]

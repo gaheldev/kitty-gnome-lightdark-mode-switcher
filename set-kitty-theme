@@ -9,10 +9,11 @@ fi
 
 
 print_usage () {
-	echo 'set-terminal-theme [--start-monitoring] [system|light|dark]
+	echo 'set-kitty-theme [-m] [system|light|dark]
 
+  -m 
   --start-monitoring:  monitors gnome light/dark theme and automaticaly changes 
-                       terminal theme accordingly (requires system)
+                       kitty theme accordingly (requires system)
 
   system:              use current system theme
   light:               use light theme
@@ -29,13 +30,13 @@ fi
 
 
 case $1 in
-	--start-monitoring )
+	-m | --start-monitoring )
 		# start daemon that matches Gnome's light/dark theme change (will be running on startup)
 		shift
 		case $1 in
 			system )
-				systemctl --user start terminal-theme-monitor.service
-				systemctl --user enable terminal-theme-monitor.service
+				systemctl --user start kitty-gnome-theme-monitor.service
+				systemctl --user enable kitty-gnome-theme-monitor.service
 				;;
 			* )
 				print_usage
@@ -53,12 +54,12 @@ case $1 in
 		theme=$1
 
 		# disable daemon that matches Gnome's light/dark theme change (won't be running on startup)
-		if systemctl --user is-enabled terminal-theme-monitor.service | grep -q 'enabled'; then
-			echo 'Disable terminal-theme-monitor.service...'
-			systemctl --user stop terminal-theme-monitor.service
-			systemctl --user disable terminal-theme-monitor.service
+		if systemctl --user is-enabled kitty-gnome-theme-monitor.service | grep -q 'enabled'; then
+			echo 'Disable kitty-gnome-theme-monitor.service...'
+			systemctl --user stop kitty-gnome-theme-monitor.service
+			systemctl --user disable kitty-gnome-theme-monitor.service
 			# kill running gsettings monitor
-			terminal-theme-monitor -k
+			kitty-gnome-theme-monitor -k
 		fi
 		;;
 	'' ) # defaults to TERMINAL_THEME

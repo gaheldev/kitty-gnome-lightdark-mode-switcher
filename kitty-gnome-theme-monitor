@@ -12,7 +12,7 @@ kill_existing_daemons () {
 
 
 print_usage () {
-	echo 'Usage: terminal-theme-monitor [-k]
+	echo 'Usage: kitty-gnome-theme-monitor [-k]
 	  :	(re)starts monitoring of gnome light/dark theme and changes kitty theme accordingly  
 	-k:	kill existing monitor'
 	exit 1
@@ -32,7 +32,7 @@ case $1 in
 		kill_existing_daemons
 
 		# monitor gsettings change
-		gsettings monitor org.gnome.desktop.interface color-scheme | xargs -I % bash -c 'set-terminal-theme system' &2>>/dev/null
+		gsettings monitor org.gnome.desktop.interface color-scheme | xargs -I % bash -c 'set-kitty-theme system' &2>>/dev/null
 		;;
 	* )
 		print_usage
