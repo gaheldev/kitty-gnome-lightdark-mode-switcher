@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+# kill existing daemon
+terminal-theme-monitor -k
+systemctl --user stop terminal-theme-monitor.service
+systemctl --user daemon-reload
+
+# remove service
+systemd_folder="$HOME"/.config/systemd/user/
+rm "$systemd_folder"/terminal-theme-monitor.service 
+
+# remove scripts
+sudo rm /usr/local/bin/set-terminal-theme
+sudo rm /usr/local/bin/terminal-theme-monitor
