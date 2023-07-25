@@ -5,5 +5,8 @@ sudo cp terminal-theme-monitor /usr/local/bin/
 sudo chmod +x /usr/local/bin/set-terminal-theme
 sudo chmod +x /usr/local/bin/terminal-theme-monitor
 
-sudo cp terminal-theme-monitor.service /etc/systemd/system/
-sudo systemctl daemon-reload
+systemd_folder="$HOME"/.config/systemd/user/
+mkdir -p $systemd_folder
+sudo cp terminal-theme-monitor.service $systemd_folder
+
+systemctl --user daemon-reload

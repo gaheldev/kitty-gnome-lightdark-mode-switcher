@@ -34,7 +34,8 @@ case $1 in
 		shift
 		case $1 in
 			system )
-				sudo systemctl enable terminal-theme-monitor.service
+				systemctl --user start terminal-theme-monitor.service
+				systemctl --user enable terminal-theme-monitor.service
 				;;
 			* )
 				print_usage
@@ -52,9 +53,10 @@ case $1 in
 		theme=$1
 
 		# disable daemon that matches Gnome's light/dark theme change (won't be running on startup)
-		if systemctl is-enabled terminal-theme-monitor.service | grep -q 'enabled'; then
+		if systemctl --user is-enabled terminal-theme-monitor.service | grep -q 'enabled'; then
 			echo 'Disable terminal-theme-monitor.service...'
-			sudo systemctl disable terminal-theme-monitor.service
+			systemctl --user stop terminal-theme-monitor.service
+			systemctl --user disable terminal-theme-monitor.service
 			# kill running gsettings monitor
 			terminal-theme-monitor -k
 		fi

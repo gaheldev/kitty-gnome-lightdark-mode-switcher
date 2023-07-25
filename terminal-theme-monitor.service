@@ -2,10 +2,9 @@
 Description=Matches Kitty's theme with Gnome light/dark theme
 
 [Service]
-Type=simple
-User=USERNAME
+Type=forking
 ExecStart=/usr/local/bin/terminal-theme-monitor
-Restart=always
+RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
