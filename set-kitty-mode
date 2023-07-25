@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-state_path="$HOME"/.local/state/TERMINAL_THEME
+state_path="$HOME"/.local/state/TERMINAL_MODE
 
 if [ ! -f $state_path ]; then
 	echo 'dark' > $state_path
