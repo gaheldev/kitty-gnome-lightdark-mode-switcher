@@ -1,23 +1,23 @@
 #!/bin/bash
 
 # add scripts to user path
-cp set-kitty-theme "$HOME"/.local/bin/
-cp kitty-gnome-theme-monitor "$HOME"/.local/bin/
-chmod +x "$HOME"/.local/bin/set-kitty-theme
-chmod +x "$HOME"/.local/bin/kitty-gnome-theme-monitor
+cp set-kitty-mode "$HOME"/.local/bin/
+cp kitty-gnome-mode-monitor "$HOME"/.local/bin/
+chmod +x "$HOME"/.local/bin/set-kitty-mode
+chmod +x "$HOME"/.local/bin/kitty-gnome-mode-monitor
 
 # add daemon to systemd
 systemd_folder="$HOME"/.config/systemd/user
 mkdir -p $systemd_folder
 echo "[Unit]
-Description=Matches Kitty's theme with Gnome light/dark theme
+Description=Matches Kitty's mode with Gnome light/dark mode
 
 [Service]
 Type=forking
-ExecStart=$HOME/.local/bin/kitty-gnome-theme-monitor
+ExecStart=$HOME/.local/bin/kitty-gnome-mode-monitor
 RemainAfterExit=yes
 
 [Install]
-WantedBy=default.target" > $systemd_folder/kitty-gnome-theme-monitor.service
+WantedBy=default.target" > $systemd_folder/kitty-gnome-mode-monitor.service
 
 systemctl --user daemon-reload

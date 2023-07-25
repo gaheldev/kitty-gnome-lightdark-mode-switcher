@@ -1,0 +1,84 @@
+#!/bin/bash
+
+
+state_path="$HOME"/.local/state/TERMINAL_THEME
+
+if [ ! -f $state_path ]; then
+	echo 'dark' > $state_path
+fi
+
+
+print_usage () {
+	echo 'set-kitty-mode [-m] [system|light|dark]
+
+  -m 
+  --start-monitoring:  monitors gnome light/dark mode and automaticaly changes 
+                       kitty theme accordingly (requires system)
+
+  system:              use current system mode
+  light:               use light mode
+  dark:                use dark mode
+
+  When no argument is passed, the last mode set with this script is used'
+	exit 1
+}
+
+
+if [[ $# -ge 3 ]]; then
+	print_usage
+fi
+
+
+case $1 in
+	-m | --start-monitoring )
+		# start daemon that matches Gnome's light/dark mode change (will be running on startup)
+		shift
+		case $1 in
+			system )
+				systemctl --user start kitty-gnome-mode-monitor.service
+				systemctl --user enable kitty-gnome-mode-monitor.service
+				;;
+			* )
+				print_usage
+				;;
+		esac
+		;;
+esac
+
+
+case $1 in
+	system )
+		mode=`gsettings get org.gnome.desktop.interface color-scheme`
+		;;
+	light | dark )
+		mode=$1
+
+		# disable daemon that matches Gnome's light/dark mode change (won't be running on startup)
+		if systemctl --user is-enabled kitty-gnome-mode-monitor.service | grep -q 'enabled'; then
+			echo 'Disable kitty-gnome-mode-monitor.service...'
+			systemctl --user stop kitty-gnome-mode-monitor.service
+			systemctl --user disable kitty-gnome-mode-monitor.service
+			# kill running gsettings monitor
+			kitty-gnome-mode-monitor -k
+		fi
+		;;
+	'' ) # defaults to TERMINAL_THEME
+		mode=$(cat $state_path)
+		;;
+	* )
+		print_usage
+		;;
+esac
+
+
+# sets kitty light/dark mode
+case $mode in
+	*dark* )
+		kitty +kitten themes --reload-in=all Catppuccin-Mocha
+		echo dark > $state_path
+		;;
+	*default* | *light* )
+		kitty +kitten themes --reload-in=all Catppuccin-Latte
+		echo light > $state_path
+		;;
+esac

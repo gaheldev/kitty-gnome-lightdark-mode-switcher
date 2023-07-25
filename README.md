@@ -16,39 +16,39 @@ Uninstall by running ```./uninstall```
 
 ### Basic usage
 
-If you want kitty to automatically change catppuccin theme to follow Gnome's light/dark theme run:
+If you want kitty to automatically change catppuccin theme to follow Gnome's light/dark mode run:
 ```bash
-set-kitty-theme -m system
+set-kitty-mode -m system
 ```
 
-It is also possible to set light or dark theme manually with:
+It is also possible to set light or dark mode manually with:
 ```bash
-set-kitty-theme light   # stops tracking of Gnome's theme if active
-set-kitty-theme dark    # stops tracking of Gnome's theme if active
-set-kitty-theme system  # use current Gnome's theme without tracking
+set-kitty-mode light   # stops tracking of Gnome's mode if active
+set-kitty-mode dark    # stops tracking of Gnome's mode if active
+set-kitty-mode system  # use current Gnome's mode without tracking
 ```
 
 ### Use different themes
 
-Currently the catpuccin themes are hardcoded in ```set-kitty-theme```. You can change them in code and run ```./install```.
+Currently the catpuccin themes are hardcoded in ```set-kitty-mode```. You can change them in code and run ```./install```.
 
 
-### Synchronize your text editor's theme with kitty
+### Synchronize your text editor's mode with kitty
 
-The current theme in use is tracked by ~/.local/state/TERMINAL_THEME which contains the value 'light' or 'dark'.
+The current mode in use is tracked by ~/.local/state/TERMINAL_THEME which contains the value 'light' or 'dark'.
 
 For example with neovim, you can add the following code to init.vim:
 ```vim
-" use dark theme as default
-let terminal_theme = 'dark'
+" use dark mode as default
+let terminal_mode = 'dark'
 
-" use the current kitty theme from the local state file TERMINAL_THEME if it exists
+" use the current kitty mode from the local state file TERMINAL_THEME if it exists
 " replace <user> with your actual user name
 if filereadable('/home/<user>/.local/state/TERMINAL_THEME')[0]
-        let terminal_theme = readfile('/home/<user>/.local/state/TERMINAL_THEME')[0]
+        let terminal_mode = readfile('/home/<user>/.local/state/TERMINAL_THEME')[0]
 endif
 
-if terminal_theme == 'light'
+if terminal_mode == 'light'
         colorscheme catppuccin-latte
 else
         colorscheme catppuccin
@@ -60,21 +60,21 @@ endif
 
 Get the daemon status:
 ```bash
-systemctl --user status kitty-gnome-theme-monitor.service
+systemctl --user status kitty-gnome-mode-monitor.service
 ```
 
 Enable the daemon to automatically run on startup:
 ```bash
-systemctl --user enable kitty-gnome-theme-monitor.service
+systemctl --user enable kitty-gnome-mode-monitor.service
 ```
 
 Start the daemon:
 ```bash
-systemctl --user start kitty-gnome-theme-monitor.service
+systemctl --user start kitty-gnome-mode-monitor.service
 ```
 
 Stop the daemon:
 ```bash
-kitty-gnome-theme-monitor -k
-systemctl --user stop kitty-gnome-theme-monitor.service
+kitty-gnome-mode-monitor -k
+systemctl --user stop kitty-gnome-mode-monitor.service
 ```

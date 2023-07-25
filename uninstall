@@ -2,16 +2,16 @@
 
 
 # kill existing daemon
-kitty-gnome-theme-monitor -k
-systemctl --user stop kitty-gnome-theme-monitor.service
+kitty-gnome-mode-monitor -k
+systemctl --user stop kitty-gnome-mode-monitor.service
 
 # remove service
 systemd_folder="$HOME"/.config/systemd/user
-rm "$systemd_folder"/kitty-gnome-theme-monitor.service 
+rm "$systemd_folder"/kitty-gnome-mode-monitor.service
 
 # remove scripts
-rm "$HOME"/.local/bin/set-kitty-theme
-rm "$HOME"/.local/bin/kitty-gnome-theme-monitor
+rm "$HOME"/.local/bin/set-kitty-mode
+rm "$HOME"/.local/bin/kitty-gnome-mode-monitor
 
 # update systemd to remove daemon
 systemctl --user daemon-reload
