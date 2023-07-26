@@ -14,6 +14,7 @@ Description=Matches Kitty's mode with Gnome light/dark mode
 
 [Service]
 Type=forking
+Environment=\"PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin\"
 ExecStart=$HOME/.local/bin/kitty-gnome-mode-monitor
 RemainAfterExit=yes
 
@@ -21,4 +22,3 @@ RemainAfterExit=yes
 WantedBy=default.target" > $systemd_folder/kitty-gnome-mode-monitor.service
 
 systemctl --user daemon-reload
-systemctl --user import-environment PATH
