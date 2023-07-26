@@ -1,5 +1,7 @@
 # Track Gnome's light/dark mode with Kitty 🌓
 
+![export](https://github.com/ZelvStudio/kitty-gnome-lightdark-mode-switcher/assets/78329601/e5848341-2a87-49d6-bedc-b033aa4c87bf)
+
 ## 🛠️ Installation
 
 ```bash
