@@ -3,6 +3,9 @@
 
 state_path="$HOME"/.local/state/TERMINAL_MODE
 
+dark_theme=Catppuccin-Mocha
+light_theme=Catppuccin-Latte
+
 if [ ! -f $state_path ]; then
 	echo 'dark' > $state_path
 fi
@@ -74,11 +77,21 @@ esac
 # sets kitty light/dark mode
 case $mode in
 	*dark* )
-		kitty +kitten themes --reload-in=all Catppuccin-Mocha
+		kitty +kitten themes --cache-age=14 --reload-in=all $dark_theme 2>/dev/null || {
+			# do not refresh cache if theme repository cannot be joined (if offline for example)
+			kitty +kitten themes --cache-age=-1 --reload-in=all $dark_theme
+		}
+
 		echo dark > $state_path
 		;;
+
 	*default* | *light* )
-		kitty +kitten themes --reload-in=all Catppuccin-Latte
+		kitty +kitten themes --cache-age=14 --reload-in=all $light_theme 2>/dev/null || {
+			# do not refresh cache if theme repository cannot be joined (if offline for example)
+			kitty +kitten themes --cache-age=-1 --reload-in=all $light_theme
+		}
+
+
 		echo light > $state_path
 		;;
 esac
