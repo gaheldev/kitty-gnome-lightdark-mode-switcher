@@ -5,7 +5,7 @@
 ## 🛠️ Installation
 
 ```bash
-git clone https://github.com/ZelvStudio/kitty-gnome-lightdark-mode-switcher.git
+git clone https://github.com/gaheldev/kitty-gnome-lightdark-mode-switcher.git
 cd kitty-gnome-lightdark-mode-switcher
 chmod +x install
 ./install
