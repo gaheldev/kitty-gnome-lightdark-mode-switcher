@@ -6,8 +6,8 @@ state_path="$HOME"/.local/state/TERMINAL_MODE
 dark_theme=Catppuccin-Mocha
 light_theme=Catppuccin-Latte
 
-if [ ! -f $state_path ]; then
-	echo 'dark' > $state_path
+if [ ! -f "$state_path" ]; then
+	echo 'dark' > "$state_path"
 fi
 
 
@@ -51,7 +51,7 @@ esac
 
 case $1 in
 	system )
-		mode=`gsettings get org.gnome.desktop.interface color-scheme`
+		mode=$(gsettings get org.gnome.desktop.interface color-scheme)
 		;;
 	light | dark )
 		mode=$1
@@ -66,7 +66,7 @@ case $1 in
 		fi
 		;;
 	'' ) # defaults to TERMINAL_THEME
-		mode=$(cat $state_path)
+		mode=$(cat "$state_path")
 		;;
 	* )
 		print_usage
@@ -77,21 +77,21 @@ esac
 # sets kitty light/dark mode
 case $mode in
 	*dark* )
-		kitty +kitten themes --cache-age=14 --reload-in=all $dark_theme 2>/dev/null || {
+		kitty +kitten themes --cache-age=14 --reload-in=all "$dark_theme" 2>/dev/null || {
 			# do not refresh cache if theme repository cannot be joined (if offline for example)
-			kitty +kitten themes --cache-age=-1 --reload-in=all $dark_theme
+			kitty +kitten themes --cache-age=-1 --reload-in=all "$dark_theme"
 		}
 
-		echo dark > $state_path
+		echo dark > "$state_path"
 		;;
 
 	*default* | *light* )
-		kitty +kitten themes --cache-age=14 --reload-in=all $light_theme 2>/dev/null || {
+		kitty +kitten themes --cache-age=14 --reload-in=all "$light_theme" 2>/dev/null || {
 			# do not refresh cache if theme repository cannot be joined (if offline for example)
-			kitty +kitten themes --cache-age=-1 --reload-in=all $light_theme
+			kitty +kitten themes --cache-age=-1 --reload-in=all "$light_theme"
 		}
 
 
-		echo light > $state_path
+		echo light > "$state_path"
 		;;
 esac
