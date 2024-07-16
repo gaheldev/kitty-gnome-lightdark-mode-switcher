@@ -1,10 +1,9 @@
 #!/bin/bash
 
 # add scripts to user path
-cp set-kitty-mode "$HOME"/.local/bin/
-cp kitty-gnome-mode-monitor "$HOME"/.local/bin/
-chmod +x "$HOME"/.local/bin/set-kitty-mode
-chmod +x "$HOME"/.local/bin/kitty-gnome-mode-monitor
+install -d "$HOME"/.local/bin/
+install set-kitty-mode "$HOME"/.local/bin/
+install kitty-gnome-mode-monitor "$HOME"/.local/bin/
 
 # add daemon to systemd
 systemd_folder="$HOME"/.config/systemd/user
