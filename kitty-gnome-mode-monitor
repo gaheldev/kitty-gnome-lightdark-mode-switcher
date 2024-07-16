@@ -6,7 +6,7 @@ kill_existing_daemons () {
 	pids=$(pgrep -f "$pname")
 	pid_count=$(pgrep -cf "$pname")
 	if [[ $pid_count -ge 1 ]]; then
-		kill $pids
+		kill "$pids"
 	fi
 }
 
